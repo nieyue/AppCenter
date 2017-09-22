@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.nieyue.dao.AppCateDao">
+<!-- 添加应用类型 -->
+<insert id="addAppCate" parameterType="AppCate" keyProperty="appCateId" flushCache="true"  >  
+   INSERT IGNORE INTO
+   		  app_cate_tb 
+   		 (name,update_date)
+   VALUES
+    	 (#{name},#{updateDate})  
+</insert>  
+<!-- 更新应用类型 -->
+<update id="updateAppCate" parameterType="AppCate" >  
+    UPDATE 
+    	app_cate_tb 
+    SET 
+    	name=#{name},
+    	update_date=#{updateDate}
+    WHERE
+    	 app_cate_id=#{appCateId} 
+</update> 
+<!-- 删除应用类型-->
+<delete id="delAppCate"  parameterType="Integer" >  
+    DELETE FROM
+    	 app_cate_tb 
+    	 WHERE app_cate_id=#{appCateId}
+</delete>  
+<!-- 加载应用类型-->
+<select id="loadAppCate" parameterType="Integer" resultType="AppCate" >
+SELECT 
+		app_cate_id,
+	 	name,
+    	update_date
+FROM app_cate_tb 
+WHERE app_cate_id=#{appCateId}
+</select>
+
+<!-- 分页查询应用类型-->
+<select id="browsePagingAppCate" resultType="AppCate">  
+        SELECT
+	    app_cate_id,
+	 	name,
+    	update_date
+	FROM app_cate_tb
+	WHERE ${orderName} 
+	<if test="orderWay=='asc'">
+	<![CDATA[>=]]> 
+	</if>
+	<if test="orderWay=='desc'">
+	  <![CDATA[<= ]]>
+	</if>
+	(SELECT ${orderName} FROM app_cate_tb 
+		ORDER BY 
+			${orderName}  ${orderWay}
+		LIMIT #{pageNum}, 1
+		) 
+	ORDER BY
+		${orderName}  ${orderWay}
+	LIMIT
+		#{pageSize}
+</select> 
+
+<!-- 统计记录条数 -->
+<select id="countAll"  resultType="int">  
+	SELECT
+	 	count(app_cate_id)
+	FROM app_cate_tb
+</select>   
+   
+ 
+</mapper>
