@@ -79,7 +79,7 @@ public class AppImgController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delete", method = {RequestMethod.GET,RequestMethod.POST})
-	public @ResponseBody StateResult delAppImg(@RequestParam("AppImgId") Integer appImgId,HttpSession session)  {
+	public @ResponseBody StateResult delAppImg(@RequestParam("appImgId") Integer appImgId,HttpSession session)  {
 		boolean dm = appImgService.delAppImg(appImgId);
 		return ResultUtil.getSR(dm);
 	}
